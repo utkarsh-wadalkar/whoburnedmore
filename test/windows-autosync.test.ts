@@ -68,7 +68,8 @@ describe("Windows windowless launcher", () => {
   it("runs npm through node, preserves version pin and disables lifecycle scripts", () => {
     const script = launcherScript();
     expect(script).toContain(`& '${opts.nodePath}' '${opts.npmCliPath}' 'exec' '--yes' '--ignore-scripts'`);
-    expect(script).toContain(`'${opts.commandArgs[4]}' '--' 'whoburnedmore' 'sync'`);
+    const packageSpec = opts.commandArgs[opts.commandArgs.indexOf("--package") + 1];
+    expect(script).toContain(`'--package' '${packageSpec}' '--' 'whoburnedmore' 'sync'`);
     expect(script).not.toContain("npm.cmd");
     expect(script).toContain("$env:Path = 'C:\\Program Files\\nodejs;' + $env:Path");
     expect(script).toContain("$env:WHOBURNEDMORE_CONFIG_DIR =");

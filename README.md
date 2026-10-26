@@ -6,7 +6,7 @@
 Install this fork's OpenCode fix, then run the CLI to submit your real daily totals.
 
 ```bash
-npm install --global --ignore-scripts https://github.com/utkarsh-wadalkar/whoburnedmore/releases/download/v0.9.24-opencode.1/whoburnedmore-0.9.24-opencode.1.tgz
+npm install --global --ignore-scripts --allow-remote=root https://github.com/utkarsh-wadalkar/whoburnedmore/releases/download/v0.9.24-opencode.2/whoburnedmore-0.9.24-opencode.2.tgz
 whoburnedmore
 ```
 

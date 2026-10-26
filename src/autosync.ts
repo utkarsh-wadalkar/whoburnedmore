@@ -278,6 +278,7 @@ export function syncCommandArgs(npmPath: string = resolveNpmPath()): string[] {
     "exec",
     "--yes",
     "--ignore-scripts",
+    "--allow-remote=root",
     "--package",
     SCHEDULED_PACKAGE_SPEC,
     "--",

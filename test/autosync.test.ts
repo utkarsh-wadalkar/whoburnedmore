@@ -204,6 +204,7 @@ describe("scheduled sync command", () => {
       "exec",
       "--yes",
       "--ignore-scripts",
+      "--allow-remote=root",
       "--package",
       forkPackageUrl,
       "--",

@@ -3,12 +3,17 @@
 > Find out who burned more — submit your AI coding-agent token usage to the public
 > leaderboard at [whoburnedmore.com](https://whoburnedmore.com).
 
+Install this fork's OpenCode fix, then run the CLI to submit your real daily totals.
+
 ```bash
-npx whoburnedmore
+npm install --global --ignore-scripts https://github.com/utkarsh-wadalkar/whoburnedmore/releases/download/v0.9.24-opencode.1/whoburnedmore-0.9.24-opencode.1.tgz
+whoburnedmore
 ```
 
-**This is the real, production CLI** — the exact code published to npm and run on users'
-machines. This repository is a public, always-in-sync mirror of it.
+This fork updates ccusage to read OpenCode's `session_message` SQLite schema.
+Its background sync uses the same pinned fork release every 15 minutes.
+Use `whoburnedmore --dry-run` to inspect usage without submitting it.
+The `npx whoburnedmore` examples below refer to the upstream npm package.
 
 ## What it does
 

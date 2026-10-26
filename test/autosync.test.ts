@@ -34,6 +34,7 @@ import {
 const packageVersion = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 ).version as string;
+const forkPackageUrl = `https://github.com/utkarsh-wadalkar/whoburnedmore/releases/download/v${packageVersion}/whoburnedmore-${packageVersion}.tgz`;
 
 describe("buildLaunchdPlist", () => {
   it("does not opt the job into macOS I/O throttling", () => {
@@ -46,7 +47,7 @@ describe("buildLaunchdPlist", () => {
     expect(plist).not.toContain("<string>Background</string>");
   });
 
-  it("produces a launchd plist pinned to the reviewed package version", () => {
+  it("produces a launchd plist pinned to the fork release tarball", () => {
     const plist = buildLaunchdPlist(
       syncCommandArgs("/usr/local/bin/npm"),
       "/home/u/.config/whoburnedmore/sync.log",
@@ -57,7 +58,7 @@ describe("buildLaunchdPlist", () => {
     expect(plist).toContain("<string>--yes</string>");
     expect(plist).toContain("<string>--ignore-scripts</string>");
     expect(plist).toContain("<string>--package</string>");
-    expect(plist).toContain(`<string>whoburnedmore@${packageVersion}</string>`);
+    expect(plist).toContain(`<string>${forkPackageUrl}</string>`);
     expect(plist).toContain("<string>--</string>");
     expect(plist).toContain("<string>whoburnedmore</string>");
     expect(plist).toContain("<string>sync</string>");
@@ -197,14 +198,14 @@ describe("syncEnv (identity/endpoint env propagation)", () => {
 });
 
 describe("scheduled sync command", () => {
-  it("pins the reviewed package version and disables lifecycle scripts", () => {
+  it("pins the fork release tarball and disables lifecycle scripts", () => {
     expect(syncCommandArgs("/usr/local/bin/npm")).toEqual([
       "/usr/local/bin/npm",
       "exec",
       "--yes",
       "--ignore-scripts",
       "--package",
-      `whoburnedmore@${packageVersion}`,
+      forkPackageUrl,
       "--",
       "whoburnedmore",
       "sync",
@@ -255,7 +256,7 @@ describe("scheduled sync command", () => {
       logPath,
     });
     expect(line).toContain("*/15 * * * *");
-    expect(line).toContain(`'whoburnedmore@${packageVersion}'`);
+    expect(line).toContain(`'${forkPackageUrl}'`);
     expect(line).toContain("'sync'");
     expect(line).toContain(shellQuote(logPath));
   });
@@ -263,7 +264,7 @@ describe("scheduled sync command", () => {
   it("quotes windows scheduled-task commands", () => {
     const line = windowsCommandLine(syncCommandArgs("C:\\Program Files\\nodejs\\npm.cmd"));
     expect(line).toContain('"C:\\Program Files\\nodejs\\npm.cmd"');
-    expect(line).toContain(`"whoburnedmore@${packageVersion}"`);
+    expect(line).toContain(`"${forkPackageUrl}"`);
     expect(line).toContain('"sync"');
   });
 
@@ -274,15 +275,15 @@ describe("scheduled sync command", () => {
 });
 
 describe("systemd user-timer fallback (linux without crontab)", () => {
-  it("builds a oneshot service pinned to the reviewed package version", () => {
+  it("builds a oneshot service pinned to the fork release tarball", () => {
     const service = buildSystemdService(syncCommandArgs("/usr/local/bin/npm"));
     expect(service).toContain("[Service]");
     expect(service).toContain("Type=oneshot");
     expect(service).toContain('ExecStart="/usr/local/bin/npm"');
-    expect(service).toContain(`"whoburnedmore@${packageVersion}"`);
+    expect(service).toContain(`"${forkPackageUrl}"`);
     expect(service).toContain('"sync"');
     // systemd parses ExecStart itself — must NOT carry shell single-quotes.
-    expect(service).not.toContain(`'whoburnedmore@${packageVersion}'`);
+    expect(service).not.toContain(`'${forkPackageUrl}'`);
   });
 
   it("exports a PATH so npm's `env node` shebang resolves under systemd", () => {

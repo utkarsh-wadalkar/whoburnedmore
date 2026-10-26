@@ -1,6 +1,6 @@
 {
   "name": "whoburnedmore",
-  "version": "0.9.24",
+  "version": "0.9.24-opencode.1",
   "description": "Find out who burned more — submit your AI coding-agent token usage to the public leaderboard at whoburnedmore.com",
   "type": "module",
   "bin": {
@@ -35,10 +35,10 @@
   "homepage": "https://whoburnedmore.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arhxam/whoburnedmore.git"
+    "url": "git+https://github.com/utkarsh-wadalkar/whoburnedmore.git"
   },
   "bugs": {
-    "url": "https://github.com/arhxam/whoburnedmore/issues"
+    "url": "https://github.com/utkarsh-wadalkar/whoburnedmore/issues"
   },
   "keywords": [
     "ai",

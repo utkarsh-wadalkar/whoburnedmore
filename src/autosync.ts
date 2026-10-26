@@ -56,10 +56,10 @@ const STABLE_NPM_CANDIDATES = [
 const require = createRequire(import.meta.url);
 const CLI_VERSION = (require("../package.json") as { version: string }).version;
 // A background scheduler is an unattended code-execution boundary. Pin it to
-// the exact reviewed CLI that installed the job; foreground upgrades reconcile
+// the exact reviewed fork release that installed the job; foreground upgrades reconcile
 // the job and deliberately advance this pin. Never execute the mutable `latest`
 // dist-tag on a timer.
-const SCHEDULED_PACKAGE_SPEC = `whoburnedmore@${CLI_VERSION}`;
+const SCHEDULED_PACKAGE_SPEC = `https://github.com/utkarsh-wadalkar/whoburnedmore/releases/download/v${CLI_VERSION}/whoburnedmore-${CLI_VERSION}.tgz`;
 
 /**
  * Standard executable directories to fold into the background-sync PATH. OS
